@@ -1,0 +1,36 @@
+{
+  "name": "ironsmith",
+  "version": "3.0.0",
+  "description": "A stupidly simple, lightweight file processing engine",
+  "repository": "github:jhnhnck/ironsmith.git",
+  "main": "ironsmith.js",
+  "types": "ironsmith.d.ts",
+  "epoch": "2018/05",
+  "license": "MIT",
+  "author": {
+    "email": "john@dev.jhnhnck.com",
+    "name": "John Hancock",
+    "url": "https://www.jhnhnck.com"
+  },
+  "scripts": {
+    "build": "tsc",
+    "postbuild": "eslint --fix ./bin/*.js &> /dev/null || exit 0",
+    "clean": "rm -rvf bin/* || exit 0"
+  },
+  "dependencies": {
+    "debug": "^3.0.0",
+    "fs-extra": "^6.0.0",
+    "recursive-readdir": "^2.2.0",
+    "source-map-support": "^0.5.0",
+    "tslib": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^0.0.30",
+    "@types/fs-extra": "^5.0.0",
+    "@types/node": "^10.0.0",
+    "@types/recursive-readdir": "^2.2.0",
+    "eslint": "^4.0.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.0.0"
+  }
+}
