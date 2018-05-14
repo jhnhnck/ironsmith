@@ -1,0 +1,22 @@
+{
+  "eslint.packageManager": "yarn",
+  "files.associations": {"*.json": "json"},
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": {
+    "package_cache/**": true,
+    "node_modules/**": true,
+    ".git*": false,
+    ".eslintrc.json": false,
+    ".yarnrc": false,
+    "tsconfig.json": false,
+    "tslint.json": false,
+    "yarn.lock": false,
+    "LICENSE": false
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/package_cache/**": true
+  }
+}
