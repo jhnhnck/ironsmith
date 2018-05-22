@@ -45,16 +45,12 @@ export class Ironsmith {
   private _loadAssets: boolean = true
 
 
-
-
-  /* Initialize a new `Ironsmith` builder within a working `directory` */
-  constructor(directory: string) {
-    this.setRoot(directory)
+  /* Initialize a new `Ironsmith` builder */
+  constructor() {
     this.setSourcePath(this._sourcePath)
     this.setSourcePath(this._buildPath)
     this.setSourcePath(this._assetsPath)
   }
-
 
   /* Get the current working directory */
   public root(): string { return this._rootPath }
@@ -248,7 +244,7 @@ export class Ironsmith {
 
       const file: Ironsmith.File = {
         contents: buffer,
-        asset: (root === this._assetsPath),  // tslint:disable-line:object-literal-sort-keys
+        asset: (root === this._assetsPath),
         path: path.relative(root, name),
       }
 

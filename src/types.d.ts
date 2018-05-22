@@ -34,8 +34,8 @@ export declare class Ironsmith {
   private _clean: boolean
   private _loadAssets: boolean
 
-  /* Initialize a new `Ironsmith` builder within a working `directory` */
-  constructor(directory: string)
+  /* Initialize a new `Ironsmith` builder */
+  constructor()
 
   /* Get the current working directory */
   root(): string
