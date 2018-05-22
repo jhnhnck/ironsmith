@@ -6,9 +6,10 @@
  */
 
 export declare namespace Ironsmith {
-  type Plugin = (files: Ironsmith.Files, fe: Ironsmith, next: Ironsmith.Next) => void
-  type Files = Map<string, Ironsmith.File>
+  type FileMap = Map<string, Ironsmith.File>
   type Next = () => void
+
+  type Plugin = (files: Ironsmith.FileMap, fe: Ironsmith, next: Ironsmith.Next) => void
 
   interface File {
       contents: Buffer | string | any
@@ -24,18 +25,19 @@ export declare namespace Ironsmith {
 
 export declare class Ironsmith {
   private plugins: Ironsmith.Plugin
-  private files: Ironsmith.Files
+  private files: Ironsmith.FileMap
 
   private _rootPath: string
   private _sourcePath: string
   private _buildPath: string
   private _assetsPath: string
+
   private _metadata: Ironsmith.Metadata
   private _clean: boolean
   private _loadAssets: boolean
 
   /* Initialize a new `Ironsmith` builder */
-  constructor()
+  constructor(directory?: string)
 
   /* Get the current working directory */
   root(): string
@@ -83,29 +85,14 @@ export declare class Ironsmith {
   use(plugin: Ironsmith.Plugin): Ironsmith
 
   /* Build with the current settings to the destination directory. */
-  build(): Promise<Ironsmith.Files>
+  build(): Promise<Ironsmith.FileMap>
 
   /* Process files through plugins without writing the output files. */
-  process(): Promise<Ironsmith.Files>
-
-  /* Deprecated Feature */
-  ignore(...files: string[]): Ironsmith;
-
-  /* Deprecated: Get whether frontmatter parsing is enabled */
-  frontmatter(): boolean
-
-  /* Deprecated: Set whether frontmatter parsing is enabled */
-  setFrontmatter(state: boolean): Ironsmith
-
-  /* Run a set of `files` through the plugins stack. */
-  private run(files: Ironsmith.Files): Promise<void>
-
-  /* Read a dictionary of files from the source directory. */
-  private read(): Promise<Ironsmith.Files>
+  process(): Promise<Ironsmith.FileMap>
 
   /* Abstracts the reading of files so it can be used more abstractly */
-  private readFiles(filenames: string[], root?: string): Promise<Ironsmith.Files>
+  static loadDirectory(directory: string, tags?: object): Promise<Ironsmith.FileMap>
 
-  /* Writes the processed files out into the build directory */
-  private write(files: Ironsmith.Files): Promise<Ironsmith.Files>
+  /* Writes a `Ironsmith.FileMap` into directory */
+  static dumpDirectory(files: Ironsmith.FileMap, directory: string): Promise<void>
 }
