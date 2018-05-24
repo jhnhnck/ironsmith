@@ -8,18 +8,35 @@
 export declare namespace Ironsmith {
   type FileMap = Map<string, Ironsmith.File>
   type Next = () => void
-
   type Plugin = (files: Ironsmith.FileMap, fe: Ironsmith, next: Ironsmith.Next) => void
+  interface Metadata { [index: string]: any }
 
-  interface File {
-      contents: Buffer | string | any
-      path?: string
+  namespace File {
+    type Augment = (file: File) => any
+    type Tags = Set<string>
+
+    interface Options {
+      tags?: string[] | File.Tags
       asset?: boolean
       [index: string]: any
+    }
   }
 
-  interface Metadata {
-      [index: string]: any
+  interface File {
+    asset: boolean
+    contents: Buffer | string | any
+    path: string
+    tags: File.Tags
+    [index: string]: any
+  }
+
+  class File {
+    private static _augment
+
+    constructor(contents: Buffer | string | any, path: string, properties?: File.Options)
+    private initialize()
+
+    static addAugment(ftn: File.Augment): void
   }
 }
 

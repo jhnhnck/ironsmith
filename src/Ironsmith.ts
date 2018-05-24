@@ -8,27 +8,46 @@ import { clone, merge } from 'lodash'
 import * as path from 'path'
 import * as recursive from 'recursive-readdir'
 
+import { File } from './File'
 export declare namespace Ironsmith {
   type FileMap = Map<string, Ironsmith.File>
   type Next = () => void
-
   type Plugin = (files: Ironsmith.FileMap, fe: Ironsmith, next: Ironsmith.Next) => void
+  interface Metadata { [index: string]: any }
 
-  interface File {
-    contents: Buffer | string | any,
-    path?: string,
-    asset?: boolean,
-    [index: string]: any,
+  namespace File {
+    type Augment = (file: File) => any
+    type Tags = Set<string>
+
+    interface Options {
+      tags?: string[] | File.Tags
+      asset?: boolean
+      [index: string]: any
+    }
   }
 
-  interface Metadata { [index: string]: any }
+  interface File {
+    asset: boolean
+    contents: Buffer | string | any
+    path: string
+    tags: File.Tags
+    [index: string]: any
+  }
+
+  class File {
+    private static _augment
+
+    constructor(contents: Buffer | string | any, path: string, properties?: File.Options)
+    private initialize()
+
+    public static addAugment(ftn: File.Augment): void
+  }
 }
 
 export class Ironsmith {
   private plugins: Ironsmith.Plugin[] = []
   private files: Ironsmith.FileMap
 
-  // tslint:disable:variable-name
   private _rootPath: string = __dirname
   private _sourcePath: string = './src'
   private _buildPath: string = './build'
@@ -146,19 +165,17 @@ export class Ironsmith {
     return this.files
   }
 
+  /* --- Static FileMap Functions --- */
+
   /* Abstracts the reading of files so it can be used more abstractly */
-  public static async loadDirectory(directory: string, tags?: object): Promise<Ironsmith.FileMap> {
+  public static async loadDirectory(directory: string, properties?: Ironsmith.File.Options): Promise<Ironsmith.FileMap> {
     const filenames = await recursive(path.resolve(directory))
     const files: Ironsmith.FileMap = new Map()
 
     for (const name of filenames) {
       const buffer = await fs.readFile(name)
 
-      const file: Ironsmith.File = {
-        path: path.relative(directory, name),
-        contents: buffer,
-        ...tags,
-      }
+      const file = new Ironsmith.File(buffer, path.relative(directory, name), properties)
 
       files.set(file.path, file)
     }
