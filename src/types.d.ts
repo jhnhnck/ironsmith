@@ -37,17 +37,28 @@ export declare namespace Ironsmith {
     asset: boolean
     contents: Buffer | string | any
     path: string
-    tags: File.Tags
+    readonly tagCount: number
     [index: string]: any
   }
 
   class File {
-    private static _augment
+    private static _augments
+    private _tags
 
     constructor(contents: Buffer | string | any, path: string, properties?: File.Options)
-    private initialize()
+    static verbose: boolean
+
+    /* --- File Augments --- */
 
     static addAugment(ftn: File.Augment): void
+    private initialize(): void
+
+    /* --- Tagging Set Abstraction --- */
+
+    public tag(value: string): void
+    public untag(value: string): boolean
+    public tags(): IterableIterator<string>
+    public tagged(value: string): boolean
   }
 }
 
