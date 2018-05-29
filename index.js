@@ -4,3 +4,4 @@
  */
 
 exports.Ironsmith = require('./bin/Ironsmith').Ironsmith
+exports.Ironsmith.File = require('./bin/File').File
