@@ -82,7 +82,7 @@ export class Ironsmith {
   private plugins: Ironsmith.Plugin[] = []
   private files: Ironsmith.FileMap
 
-  private _rootPath: string = __dirname
+  private _rootPath: string = __dirname + '/../'
   private _sourcePath: string = './src'
   private _buildPath: string = './build'
   private _assetsPath: string = './assets'
@@ -223,21 +223,23 @@ export class Ironsmith {
     const files: Ironsmith.FileMap = new Map()
     let prefix: string = ''
 
+    properties = properties || {}
+
     if (properties.loadRelative !== undefined) {
       prefix = properties.loadRelative
 
-      if (prefix.startsWith('/')) { prefix = prefix.substr(1) }
+      if (prefix.startsWith('/')) { prefix = prefix.substring(1) }
       if (!prefix.endsWith('/') && prefix.length > 0) { prefix += '/' }
 
       delete properties.loadRelative
     }
 
-    log(`loadDirectory(...): Loading ${filenames.length} files from ${directory} ${prefix.length > 0 ? ` into ${prefix}/` : ''}`)
+    log(`loadDirectory(...): Loading ${filenames.length} files from ${directory} ${prefix.length > 0 ? ` into ${prefix}` : ''}`)
 
     for (const name of filenames) {
       const buffer = await fs.readFile(name)
 
-      const file = new Ironsmith.File(buffer, `${prefix}/${path.relative(directory, name)}`, properties)
+      const file = new Ironsmith.File(buffer, `${prefix}${path.relative(directory, name)}`, properties)
 
       log(` - loaded: ${file.path}${file.asset ? ' (asset)' : ''}`)
       files.set(file.path, file)
