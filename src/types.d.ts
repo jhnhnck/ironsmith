@@ -22,6 +22,10 @@ export declare namespace Ironsmith {
     verbose?: boolean
   }
 
+  interface LoadOptions {
+    loadRelative?: string
+  }
+
   namespace File {
     type Augment = (file: File) => any
     type Tags = Set<string>
@@ -105,6 +109,6 @@ export declare class Ironsmith {
 
   /* --- Static FileMap Functions --- */
 
-  static loadDirectory(directory: string, properties?: Ironsmith.File.Options): Promise<Ironsmith.FileMap>
+  static loadDirectory(directory: string, properties?: Ironsmith.File.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap>
   static dumpDirectory(files: Ironsmith.FileMap, directory: string): Promise<void>
 }

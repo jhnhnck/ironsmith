@@ -32,6 +32,10 @@ export declare namespace Ironsmith {
     verbose?: boolean
   }
 
+  interface LoadOptions {
+    loadRelative?: string
+  }
+
   namespace File {
     type Augment = (file: File) => any
     type Tags = Set<string>
@@ -214,18 +218,28 @@ export class Ironsmith {
   /* --- Static FileMap Functions --- */
 
   /* Abstracts the reading of files so it can be used more abstractly */
-  public static async loadDirectory(directory: string, properties?: Ironsmith.File.Options): Promise<Ironsmith.FileMap> {
+  public static async loadDirectory(directory: string, properties?: Ironsmith.File.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap> {
     const filenames = await recursive(path.resolve(directory))
     const files: Ironsmith.FileMap = new Map()
+    let prefix: string = ''
 
-    log(`loadDirectory(...): Loading ${filenames.length} files from ${directory}`)
+    if (properties.loadRelative !== undefined) {
+      prefix = properties.loadRelative
+
+      if (prefix.startsWith('/')) { prefix = prefix.substr(1) }
+      if (!prefix.endsWith('/') && prefix.length > 0) { prefix += '/' }
+
+      delete properties.loadRelative
+    }
+
+    log(`loadDirectory(...): Loading ${filenames.length} files from ${directory} ${prefix.length > 0 ? ` into ${prefix}/` : ''}`)
 
     for (const name of filenames) {
       const buffer = await fs.readFile(name)
 
-      const file = new Ironsmith.File(buffer, path.relative(directory, name), properties)
+      const file = new Ironsmith.File(buffer, `${prefix}/${path.relative(directory, name)}`, properties)
 
-      log(`Loading file: ${file.path}${file.asset ? ' (asset)' : '' }`)
+      log(` - loaded: ${file.path}${file.asset ? ' (asset)' : ''}`)
       files.set(file.path, file)
     }
 
