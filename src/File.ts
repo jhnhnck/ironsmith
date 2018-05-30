@@ -3,10 +3,8 @@
  * Author(s): John Hancock <john@dev.jhnhnck.com>
  */
 
-
 import * as debug from 'debug'
 const log = debug('ironsmith:file')
-
 
 export declare namespace File {
   type Augment = (file: File) => any
@@ -30,6 +28,7 @@ export class File {
   public asset: boolean = false
 
   private static _augments: File.Augment[] = []
+  public static _augmentList: string[] = []
 
   constructor(contents: Buffer | string | any, path: string, properties?: File.Options) {
     log(`New file created: ${path} ${JSON.stringify(properties || {})}`)
@@ -61,15 +60,19 @@ export class File {
   /* --- File Augments --- */
 
   private async initialize(): Promise<void> {
-    log(`Running augments for file: ${this.path}`)
+    log(`Running augments [${File._augmentList.join(', ')}] for file: ${this.path}`)
     for (const ftn of File._augments) {
-      log(` - Running augment: ${ftn.name}`)
       await ftn(this)
     }
   }
 
+  static get augmentList(): string[] {
+    return Object.assign([], File._augmentList)
+  }
+
   public static addAugment(ftn: File.Augment) {
     log(`Added augment: ${ftn.name}`)
+    File._augmentList.push(ftn.name)
     File._augments.push(ftn)
   }
 }
