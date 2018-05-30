@@ -82,10 +82,10 @@ export class Ironsmith {
   private plugins: Ironsmith.Plugin[] = []
   private files: Ironsmith.FileMap
 
-  private _rootPath: string = __dirname + '/../'
-  private _sourcePath: string = './src'
-  private _buildPath: string = './build'
-  private _assetsPath: string = './assets'
+  private _rootPath: string = __dirname + '/../../'
+  private _sourcePath: string = 'src'
+  private _buildPath: string = 'build'
+  private _assetsPath: string = 'assets'
 
   private _metadata: Ironsmith.Metadata = {}
   private _clean: boolean = true
