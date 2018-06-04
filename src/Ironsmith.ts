@@ -207,7 +207,7 @@ export class Ironsmith {
 
     for (const plugin of this.plugins) {
       await new Promise((next) => {
-        console.log(); log(`process(): Running plugin ${plugin.name}`)
+        log(`process(): Running plugin ${plugin.name}`)
         plugin(this.files, this, next)
       })
     }
