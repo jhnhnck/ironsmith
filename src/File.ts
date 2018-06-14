@@ -6,45 +6,28 @@
 import * as debug from 'debug'
 const log = debug('ironsmith:file')
 
-export declare namespace File {
-  type Augment = (file: File) => any
-  type Tags = Set<string>
+export class IronsmithFile {
+  private static _augmentList: string[] = []
+  private static _augments: IronsmithFile.Augment[] = []
+  private _tags: IronsmithFile.Tags
 
-  interface Options {
-    tags?: string[] | File.Tags
-    asset?: boolean
-    [index: string]: any
-  }
-}
-
-export interface File {
-  contents: Buffer | string | any
-  path: string
-  [index: string]: any
-}
-
-export class File {
-  private _tags: File.Tags = new Set()
   public asset: boolean = false
+  public path: string
+  public contents: Buffer | string | any
 
-  private static _augments: File.Augment[] = []
-  public static _augmentList: string[] = []
+  constructor(contents: Buffer | string | any, path: string, properties?: IronsmithFile.Options) {
+    properties = properties || {}
 
-  constructor(contents: Buffer | string | any, path: string, properties?: File.Options) {
-    log(`New file created: ${path} ${JSON.stringify(properties || {})}`)
+    log(`New file created: ${path} ${JSON.stringify(properties)}`)
     this.contents = contents
     this.path = path
 
-    if (properties !== undefined) {
-      if (properties.tags !== undefined) {
-        this._tags = new Set(properties.tags)
-        delete properties.tags
-      }
+    this._tags = new Set(properties.tags || [])
+    if (properties.tags !== undefined) { delete properties.tags }
 
-      Object.assign(this, properties)
-    }
+    Object.assign(this, properties)
 
-    if (File._augments.length > 0) { this.initialize() }
+    if (IronsmithFile._augments.length > 0) { this.initialize() }
   }
 
   public static set verbose(value: boolean) { log.enabled = value }
@@ -60,19 +43,19 @@ export class File {
   /* --- File Augments --- */
 
   private async initialize(): Promise<void> {
-    log(`Running augments [${File._augmentList.join(', ')}] for file: ${this.path}`)
-    for (const ftn of File._augments) {
+    log(`Running augments [${IronsmithFile._augmentList.join(', ')}] for file: ${this.path}`)
+    for (const ftn of IronsmithFile._augments) {
       await ftn(this)
     }
   }
 
   static get augmentList(): string[] {
-    return Object.assign([], File._augmentList)
+    return Object.assign([], IronsmithFile._augmentList)
   }
 
-  public static addAugment(ftn: File.Augment) {
+  public static addAugment(ftn: IronsmithFile.Augment) {
     log(`Added augment: ${ftn.name}`)
-    File._augmentList.push(ftn.name)
-    File._augments.push(ftn)
+    IronsmithFile._augmentList.push(ftn.name)
+    IronsmithFile._augments.push(ftn)
   }
 }

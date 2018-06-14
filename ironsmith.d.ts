@@ -13,9 +13,11 @@ declare module 'ironsmith' {
     private _sourcePath
     private _buildPath
     private _assetsPath
-    private _metadata
-    private _clean
     private _loadAssets
+
+    public metadata: Ironsmith.Metadata
+    public clean: boolean
+    public verbose: boolean
 
     constructor(options?: Ironsmith.Options)
 
@@ -28,13 +30,7 @@ declare module 'ironsmith' {
 
     /* --- Process Metadata --- */
 
-    metadata: Ironsmith.Metadata
     mergeMetadata(metadata: Ironsmith.Metadata): void
-
-    /* --- Other Properties --- */
-
-    readonly clean: boolean
-    verbose: boolean
 
     /* --- Build Process --- */
 

@@ -9,72 +9,9 @@ import { clone, merge } from 'lodash'
 import * as path from 'path'
 import * as recursive from 'recursive-readdir'
 
-import { File } from './File'
+import { IronsmithFile } from './File'
 
 const log = debug('ironsmith')
-
-/* --- Type Declaration Again --- */
-
-export declare namespace Ironsmith {
-  type FileMap = Map<string, Ironsmith.File>
-  type Next = () => void
-  type Plugin = (files: Ironsmith.FileMap, fe: Ironsmith, next: Ironsmith.Next) => void
-  interface Metadata { [index: string]: any }
-
-  interface Options {
-    rootPath?: string
-    sourcePath?: string
-    buildPath?: string
-    assetsPath?: string
-    clean?: boolean
-    loadAssets?: boolean
-    metadata?: Metadata
-    verbose?: boolean
-  }
-
-  interface LoadOptions {
-    loadRelative?: string
-  }
-
-  namespace File {
-    type Augment = (file: File) => any
-    type Tags = Set<string>
-
-    interface Options {
-      tags?: string[] | File.Tags
-      asset?: boolean
-      [index: string]: any
-    }
-  }
-
-  interface File {
-    asset: boolean
-    contents: Buffer | string | any
-    path: string
-    readonly tagCount: number
-    [index: string]: any
-  }
-
-  class File {
-    private static _augments
-    private _tags
-
-    constructor(contents: Buffer | string | any, path: string, properties?: File.Options)
-    public static verbose: boolean
-
-    /* --- File Augments --- */
-
-    public static addAugment(ftn: File.Augment): void
-    private initialize(): void
-
-    /* --- Tagging Set Abstraction --- */
-
-    public tag(value: string): void
-    public untag(value: string): boolean
-    public tags(): IterableIterator<string>
-    public tagged(value: string): boolean
-  }
-}
 
 /* --- Ironsmith --- */
 
@@ -86,27 +23,14 @@ export class Ironsmith {
   private _sourcePath: string = 'src'
   private _buildPath: string = 'build'
   private _assetsPath: string = 'assets'
-
-  private _metadata: Ironsmith.Metadata = {}
-  private _clean: boolean = true
   private _loadAssets: boolean = true
 
+  public metadata: Ironsmith.Metadata = {}
+  public clean: boolean = true
 
   /* Initialize a new `Ironsmith` builder */
   constructor(options?: Ironsmith.Options) {
-    if (options !== undefined) {
-      if (options.verbose !== undefined) {
-        this.verbose = options.verbose
-        File.verbose = options.verbose
-        delete options.verbose
-      }
-
-      if (options.clean !== undefined) {
-        this._clean = options.clean
-        delete options.clean
-      }
-    }
-
+    options = options || {}
     Object.assign(this, options)
   }
 
@@ -164,14 +88,14 @@ export class Ironsmith {
 
   /* --- Process Metadata --- */
 
-  get metadata(): Ironsmith.Metadata { return this._metadata }
-  set metadata(metadata: Ironsmith.Metadata) { this._metadata = metadata }
-  public mergeMetadata(metadata: Ironsmith.Metadata) { merge(this._metadata, metadata) }
+  public mergeMetadata(metadata: Ironsmith.Metadata) { merge(this.metadata, metadata) }
 
   /* --- Other Properties --- */
 
-  get clean(): boolean { return this._clean }
-  set verbose(value: boolean) { log.enabled = value }
+  set verbose(value: boolean) {
+    IronsmithFile.verbose = value
+    log.enabled = value
+  }
 
   /* --- Build Process --- */
 
@@ -184,41 +108,48 @@ export class Ironsmith {
 
   /* Build with the current settings to the destination directory. */
   public async build(): Promise<Ironsmith.FileMap> {
-    if (this._clean) {
-      log(`build(): Cleaning build directory`)
-      await fs.remove(path.join(this._buildPath, '*'))
-    }
+    try {
+      if (this.clean) {
+        log(`build(): Cleaning build directory`)
+        await fs.remove(path.join(this._buildPath, '*'))
+      }
 
-    await this.process()
-    await Ironsmith.dumpDirectory(this.files, this._buildPath)
-    return this.files
+      await this.process()
+      await Ironsmith.dumpDirectory(this.files, this._buildPath)
+      return this.files
+
+    } catch (err) {
+      return Promise.reject(err)
+    }
   }
 
   /* Process files through plugins without writing the output files. */
   public async process(): Promise<Ironsmith.FileMap> {
-    const sources = await Ironsmith.loadDirectory(this._sourcePath)
+    try {
+      const sources = await Ironsmith.loadDirectory(this._sourcePath)
 
-    if (this._loadAssets) {
-      const assets = await Ironsmith.loadDirectory(this._assetsPath, {asset: true})
-      this.files = new Map([...sources, ...assets])
-    } else {
-      this.files = sources
-    }
+      if (this._loadAssets) {
+        const assets = await Ironsmith.loadDirectory(this._assetsPath, {asset: true})
+        this.files = new Map([...sources, ...assets])
+      } else {
+        this.files = sources
+      }
 
-    for (const plugin of this.plugins) {
-      await new Promise((next) => {
+      for (const plugin of this.plugins) {
         log(`process(): Running plugin ${plugin.name}`)
-        plugin(this.files, this, next)
-      })
-    }
+        await new Promise((next) => { plugin(this.files, this, next) })
+      }
+      return this.files
 
-    return this.files
+    } catch (err) {
+      return Promise.reject(err)
+    }
   }
 
   /* --- Static FileMap Functions --- */
 
   /* Abstracts the reading of files so it can be used more abstractly */
-  public static async loadDirectory(directory: string, properties?: Ironsmith.File.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap> {
+  public static async loadDirectory(directory: string, properties?: IronsmithFile.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap> {
     const filenames = await recursive(path.resolve(directory))
     const files: Ironsmith.FileMap = new Map()
     let prefix: string = ''
@@ -239,7 +170,7 @@ export class Ironsmith {
     for (const name of filenames) {
       const buffer = await fs.readFile(name)
 
-      const file = new Ironsmith.File(buffer, `${prefix}${path.relative(directory, name)}`, properties)
+      const file = await new IronsmithFile(buffer, `${prefix}${path.relative(directory, name)}`, Object.assign({}, properties))
 
       log(` - loaded: ${file.path}${file.asset ? ' (asset)' : ''}`)
       files.set(file.path, file)

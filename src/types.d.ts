@@ -93,7 +93,7 @@ export declare class Ironsmith {
 
   /* --- Other Properties --- */
 
-  readonly clean: boolean
+  clean: boolean
   verbose: boolean
 
   /* --- Build Process --- */
