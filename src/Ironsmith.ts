@@ -170,10 +170,15 @@ export class Ironsmith {
     for (const name of filenames) {
       const buffer = await fs.readFile(name)
 
-      const file = await new IronsmithFile(buffer, `${prefix}${path.relative(directory, name)}`, Object.assign({}, properties))
+      try {
+        const file = await new IronsmithFile(buffer, `${prefix}${path.relative(directory, name)}`, Object.assign({}, properties))
 
-      log(` - loaded: ${file.path}${file.asset ? ' (asset)' : ''}`)
-      files.set(file.path, file)
+        log(` - loaded: ${file.path}${file.asset ? ' (asset)' : ''}`)
+        files.set(file.path, file)
+
+      } catch (err) {  // This allows for Augments and/or constructors to reject the creation of files by throwing an error
+        log(` - not loaded: ${name} (${err.message})`)
+      }
     }
 
     return files

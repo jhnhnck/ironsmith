@@ -42,11 +42,9 @@ export class IronsmithFile {
 
   /* --- File Augments --- */
 
-  private async initialize(): Promise<void> {
+  private initialize() {
     log(`Running augments [${IronsmithFile._augmentList.join(', ')}] for file: ${this.path}`)
-    for (const ftn of IronsmithFile._augments) {
-      await ftn(this)
-    }
+    for (const ftn of IronsmithFile._augments) { ftn(this) }
   }
 
   static get augmentList(): string[] {
