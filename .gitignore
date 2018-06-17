@@ -1,73 +1,75 @@
-### Node ###
+# --- Node --- #
 
-# Logs
+## Logs
 logs
 *.log
 yarn-debug.log*
 yarn-error.log*
 
-# Runtime data
+## Runtime data
 pids
 *.pid
 *.seed
 *.pid.lock
 
-# Dependency directories
+## Dependency directories
 node_modules/
 
-# Cache directories
+## Cache directories
 package_cache/
 
-# Optional eslint cache
+## Optional eslint cache
 .eslintcache
 
-### Linux ###
-
+# --- Linux --- #
 *~
 
-# temporary files which can be created if a process still has a handle open of a deleted file
+## temporary files which can be created if a process still has a handle open of a deleted file
 .fuse_hidden*
 
-# KDE directory preferences
+## KDE directory preferences
 .directory
 
-# Linux trash folder which might appear on any partition or disk
+## Linux trash folder which might appear on any partition or disk
 .Trash-*
 
-# .nfs files are created when an open file is removed but is still being accessed
+## .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
-### Windows ###
+# --- Windows --- #
 
-# Windows thumbnail cache files
+## Windows thumbnail cache files
 Thumbs.db
 ehthumbs.db
 ehthumbs_vista.db
 
-# Dump file
+## Dump file
 *.stackdump
 
-# Folder config file
+## Folder config file
 [Dd]esktop.ini
 
-# Recycle Bin used on file shares
+## Recycle Bin used on file shares
 $RECYCLE.BIN/
 
-# Windows Installer files
+## Windows Installer files
 *.cab
 *.msi
 *.msm
 *.msp
 
-# Windows shortcuts
+## Windows shortcuts
 *.lnk
 
-### Visual Studio Code ###
+# Visual Studio Code ##
 
-# VS Code Project Files
+## VS Code Project Files
 *.code-workspace
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# --- Typescript --- #
+bin/*
