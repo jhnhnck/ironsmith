@@ -86,13 +86,9 @@ export declare class Ironsmith {
   sourcePath: string
   assetsPath: string
 
-  /* --- Process Metadata --- */
-
-  metadata: Ironsmith.Metadata
-  mergeMetadata(metadata: Ironsmith.Metadata): void
-
   /* --- Other Properties --- */
 
+  metadata: Ironsmith.Metadata
   clean: boolean
   verbose: boolean
 

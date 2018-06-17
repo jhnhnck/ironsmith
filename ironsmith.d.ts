@@ -28,10 +28,6 @@ declare module 'ironsmith' {
     sourcePath: string
     assetsPath: string
 
-    /* --- Process Metadata --- */
-
-    mergeMetadata(metadata: Ironsmith.Metadata): void
-
     /* --- Build Process --- */
 
     /* Add a 'Ironsmith.Plugin' function to the stack */

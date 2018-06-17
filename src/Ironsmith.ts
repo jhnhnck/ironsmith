@@ -5,7 +5,6 @@
 
 import * as debug from 'debug'
 import * as fs from 'fs-extra'
-import { clone, merge } from 'lodash'
 import * as path from 'path'
 import * as recursive from 'recursive-readdir'
 
@@ -19,7 +18,7 @@ export class Ironsmith {
   private plugins: Ironsmith.Plugin[] = []
   private files: Ironsmith.FileMap
 
-  private _rootPath: string = __dirname + '/../../'
+  private _rootPath: string = __dirname + '/../../'  // I think this only works for me
   private _sourcePath: string = 'src'
   private _buildPath: string = 'build'
   private _assetsPath: string = 'assets'
@@ -85,10 +84,6 @@ export class Ironsmith {
       this._loadAssets = false
     }
   }
-
-  /* --- Process Metadata --- */
-
-  public mergeMetadata(metadata: Ironsmith.Metadata) { merge(this.metadata, metadata) }
 
   /* --- Other Properties --- */
 
