@@ -95,7 +95,7 @@ export class Ironsmith {
     log.enabled = value
   }
 
-  /* --- Build Process --- */
+  /* --- Build Initialization --- */
 
   /* Add a 'Ironsmith.Plugin' function to the stack */
   public use(plugin: Ironsmith.Plugin): Ironsmith {
@@ -103,6 +103,13 @@ export class Ironsmith {
     this.plugins.push(plugin)
     return this
   }
+
+  /* Add a file to the Ironsmith instance before building/processing */
+  public addFile(path: string, file: IronsmithFile) {
+    this.files.set(path, file)
+  }
+
+  /* --- Build Process --- */
 
   /* Build with the current settings to the destination directory. */
   public async build(): Promise<Ironsmith.FileMap> {

@@ -94,10 +94,15 @@ declare class Ironsmith {
   clean: boolean
   verbose: boolean
 
-  /* --- Build Process --- */
+  /* --- Build Initialization --- */
 
   /* Add a 'Ironsmith.Plugin' function to the stack */
   use(plugin: Ironsmith.Plugin): Ironsmith
+
+  /* Add a file to the Ironsmith instance before building/processing */
+  addFile(path: string, file: IronsmithFile): void
+
+  /* --- Build Process --- */
 
   /* Build with the current settings to the destination directory. */
   build(): Promise<Ironsmith.FileMap>
