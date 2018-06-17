@@ -109,7 +109,7 @@ export class Ironsmith {
     try {
       if (this.clean) {
         log(`build(): Cleaning build directory`)
-        await fs.remove(path.join(this._buildPath, '*'))
+        await fs.emptyDir(path.join(this._buildPath, '*'))
       }
 
       await this.process()
