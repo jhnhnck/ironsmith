@@ -13,7 +13,6 @@ declare module 'ironsmith' {
     private _sourcePath
     private _buildPath
     private _assetsPath
-    private _loadAssets
 
     public metadata: Ironsmith.Metadata
     public clean: boolean
@@ -27,6 +26,9 @@ declare module 'ironsmith' {
     buildPath: string
     sourcePath: string
     assetsPath: string
+
+    loadSource: boolean
+    loadAssets: boolean
 
     /* --- Build Process --- */
 

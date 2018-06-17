@@ -22,15 +22,18 @@ export class Ironsmith {
   private _sourcePath: string = 'src'
   private _buildPath: string = 'build'
   private _assetsPath: string = 'assets'
-  private _loadAssets: boolean = true
 
   public metadata: Ironsmith.Metadata = {}
+  public loadSource: boolean = true
+  public loadAssets: boolean = true
   public clean: boolean = true
 
   /* Initialize a new `Ironsmith` builder */
   constructor(options?: Ironsmith.Options) {
     options = options || {}
     Object.assign(this, options)
+
+    this.files = new Map<string, IronsmithFile>()
   }
 
   /* --- Working Directory --- */
@@ -61,7 +64,7 @@ export class Ironsmith {
 
   /* --- Source Directory --- */
 
-  get sourcePath(): string { return this._sourcePath }
+  get sourcePath(): string { return this.loadSource ? this._sourcePath : undefined }
 
   set sourcePath(directory: string) {
     if (directory.length > 0) {  // TODO: Check if this is a valid path
@@ -74,14 +77,14 @@ export class Ironsmith {
 
   /* --- Assets Directory --- */
 
-  get assetsPath(): string { return this._loadAssets ? this._assetsPath : undefined }
+  get assetsPath(): string { return this.loadAssets ? this._assetsPath : undefined }
 
   set assetsPath(directory: string) {
     if (directory.length > 0) {  // TODO: Check if this is a valid path
       this._assetsPath = path.resolve(this._rootPath, directory)
       log(`setAssetsPath(...): ${this._assetsPath}`)
     } else {
-      this._loadAssets = false
+      this.loadAssets = false
     }
   }
 
@@ -121,14 +124,17 @@ export class Ironsmith {
   /* Process files through plugins without writing the output files. */
   public async process(): Promise<Ironsmith.FileMap> {
     try {
-      const sources = await Ironsmith.loadDirectory(this._sourcePath)
+      let sources: Ironsmith.FileMap, assets: Ironsmith.FileMap
 
-      if (this._loadAssets) {
-        const assets = await Ironsmith.loadDirectory(this._assetsPath, {asset: true})
-        this.files = new Map([...sources, ...assets])
-      } else {
-        this.files = sources
+      if (this.loadSource) {
+        sources = await Ironsmith.loadDirectory(this._sourcePath)
       }
+
+      if (this.loadAssets) {
+        assets = await Ironsmith.loadDirectory(this._assetsPath, {asset: true})
+      }
+
+      this.files = new Map([...this.files, ...(sources || []), ...(assets || [])])
 
       for (const plugin of this.plugins) {
         log(`process(): Running plugin ${plugin.name}`)
