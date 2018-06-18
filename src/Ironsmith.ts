@@ -24,9 +24,9 @@ export class Ironsmith {
   private _assetsPath: string = 'assets'
 
   public metadata: Ironsmith.Metadata = {}
-  public loadSource: boolean = true
-  public loadAssets: boolean = true
-  public clean: boolean = true
+  public loadSource: boolean = false
+  public loadAssets: boolean = false
+  public clean: boolean = false
 
   /* Initialize a new `Ironsmith` builder */
   constructor(options?: Ironsmith.Options) {
