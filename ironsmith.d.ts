@@ -64,8 +64,8 @@ declare module 'ironsmith' {
       buildPath?: string
       assetsPath?: string
       clean?: boolean
-      loadSource?: boolean
       loadAssets?: boolean
+      loadSource?: boolean
       metadata?: Metadata
       verbose?: boolean
     }

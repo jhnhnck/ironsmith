@@ -58,6 +58,7 @@ declare namespace Ironsmith {
     assetsPath?: string
     clean?: boolean
     loadAssets?: boolean
+    loadSource?: boolean
     metadata?: Metadata
     verbose?: boolean
   }
