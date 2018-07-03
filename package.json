@@ -1,6 +1,6 @@
 {
   "name": "ironsmith",
-  "version": "3.1.9",
+  "version": "3.1.10",
   "description": "A stupidly simple, lightweight file processing engine",
   "repository": "github:jhnhnck/ironsmith.git",
   "main": "ironsmith.js",
@@ -27,10 +27,10 @@
   "devDependencies": {
     "@types/debug": "^0.0.30",
     "@types/fs-extra": "^5.0.0",
-    "@types/node": "^10.0.0",
+    "@types/node": "^10.5.1",
     "@types/recursive-readdir": "^2.2.0",
-    "eslint": "^4.0.0",
+    "eslint": "^5.0.0",
     "tslint": "^5.10.0",
-    "typescript": "^2.0.0"
+    "typescript": "^2.9.2"
   }
 }
