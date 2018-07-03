@@ -43,6 +43,10 @@ declare class IronsmithFile {
   untag(value: string): boolean
   tags(): IterableIterator<string>
   tagged(value: string): boolean
+
+  /* --- Binary Packaging --- */
+
+  toBSON(): object
 }
 
 declare namespace Ironsmith {

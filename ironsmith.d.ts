@@ -114,6 +114,10 @@ declare module 'ironsmith' {
       untag(value: string): boolean
       tags(): IterableIterator<string>
       tagged(value: string): boolean
+
+      /* --- Binary Packaging --- */
+
+      toBSON(): object
     }
   }
 }

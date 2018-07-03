@@ -56,4 +56,15 @@ export class IronsmithFile {
     IronsmithFile._augmentList.push(ftn.name)
     IronsmithFile._augments.push(ftn)
   }
+
+  /* --- Binary Packaging --- */
+
+  public toBSON(): object {
+    return {
+      asset: this.asset,
+      contents: this.contents instanceof Buffer ? this.contents : new Buffer(this.contents),
+      path: this.path,
+      tags: Array.from(this._tags)
+    }
+  }
 }
