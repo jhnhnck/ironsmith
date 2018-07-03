@@ -2,6 +2,27 @@
 
 A stupidly simple, lightweight file processing engine
 
+By default, Ironsmith does absolutely nothing. Everything is controlled by what you enable and extend.
+**All** the logic is handled by extensions, with each one modifying a set of files before handing off to the next extension.
+
+## Installation ##
+
+```
+$ yarn add ironsmith
+```
+
+```
+$ npm install ironsmith
+```
+
+## Extensions ##
+
+**TODO**
+
+## API ##
+
+**TODO**
+
 ## TO-DOs ##
 
 - [ ] Add a counter for file uses
