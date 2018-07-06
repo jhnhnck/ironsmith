@@ -49,7 +49,7 @@ declare module 'ironsmith' {
     /* --- Static FileMap Functions --- */
 
     static loadDirectory(directory: string, properties?: Ironsmith.File.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap>
-    static dumpDirectory(files: Ironsmith.FileMap, directory: string): Promise<void>
+    static dumpDirectory(directory: string, files: Ironsmith.FileMap): Promise<void>
   }
 
   export namespace Ironsmith {

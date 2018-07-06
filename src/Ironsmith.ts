@@ -120,7 +120,7 @@ export class Ironsmith {
       }
 
       await this.process()
-      await Ironsmith.dumpDirectory(this.files, this._buildPath)
+      await Ironsmith.dumpDirectory(this._buildPath, this.files)
       return this.files
 
     } catch (err) {
@@ -193,7 +193,7 @@ export class Ironsmith {
   }
 
   /* Writes a `Ironsmith.FileMap` into directory */
-  public static async dumpDirectory(files: Ironsmith.FileMap, directory: string): Promise<void> {
+  public static async dumpDirectory(directory: string, files: Ironsmith.FileMap): Promise<void> {
     log(`dumpDirectory(...): Dumping ${files.size} files into ${directory}`)
 
     files.forEach(async (file, name) => {
