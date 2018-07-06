@@ -8,11 +8,11 @@ By default, Ironsmith does absolutely nothing. Everything is controlled by what 
 ## Installation ##
 
 ```
-$ yarn add ironsmith
+$ npm install ironsmith
 ```
 
 ```
-$ npm install ironsmith
+$ yarn add ironsmith
 ```
 
 ## Basic Usage ##
