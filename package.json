@@ -12,6 +12,14 @@
     "name": "John Hancock",
     "url": "https://www.jhnhnck.com"
   },
+  "keywords": [
+    "file",
+    "processing",
+    "engine",
+    "generator",
+    "framework",
+    "builder"
+  ],
   "scripts": {
     "build": "tsc",
     "postbuild": "eslint --fix ./bin/*.js &> /dev/null || exit 0",
