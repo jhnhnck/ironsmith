@@ -36,7 +36,7 @@ declare module 'ironsmith' {
     use(plugin: Ironsmith.Plugin): Ironsmith
 
     /* Add a file to the Ironsmith instance before building/processing */
-    addFile(path: string, file: IronsmithFile): void
+    addFile(path: string, file: Ironsmith.File): void
 
     /* --- Build Process --- */
 
