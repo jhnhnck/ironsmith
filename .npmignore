@@ -71,6 +71,7 @@ $RECYCLE.BIN/
 
 tslint.json
 tsconfig.json
+src/*
 
 # --- Other Configs --- #
 
