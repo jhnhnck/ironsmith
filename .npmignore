@@ -78,3 +78,5 @@ src/
 .yarnrc
 .eslintrc.json
 .gitignore
+*.tgz
+CONTRIBUTING.md
