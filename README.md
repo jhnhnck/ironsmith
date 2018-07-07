@@ -1,5 +1,8 @@
 # Ironsmith #
 
+![npm-version](https://img.shields.io/npm/v/ironsmith.svg)
+![npm-download-qm](https://img.shields.io/npm/dm/ironsmith.svg)
+
 A stupidly simple, lightweight file processing engine
 
 By default, Ironsmith does absolutely nothing. Everything is controlled by what you enable and extend.
