@@ -6,6 +6,12 @@
 - [ ] Replace asset/source directories with directory loading list
 - [ ] Add support for ignoring certain filetypes
 
+## Release v1.0.6 ##
+
+### Bug Fixes ###
+
+- Failure on compile of TypeScript files fixed
+
 ## Release v1.0.5 ##
 
 ### Changes ###

@@ -49,7 +49,7 @@ declare module 'ironsmith' {
     /* --- File Functions --- */
 
     /* Loads all of the files contained within a directory into the file map as if it were loaded from the source directory */
-    loadDirectory(directory: string, properties?: IronsmithFile.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap>
+    loadDirectory(directory: string, properties?: Ironsmith.File.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap>
 
     /* --- Static File Functions --- */
 
