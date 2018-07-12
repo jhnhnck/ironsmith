@@ -154,7 +154,17 @@ export class Ironsmith {
     }
   }
 
-  /* --- Static FileMap Functions --- */
+  /* --- File Functions --- */
+
+  /* Loads all of the files contained within a directory into the file map as if it were loaded from the source directory */
+  public async loadDirectory(directory: string, properties?: IronsmithFile.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap> {
+    const files = await Ironsmith.loadDirectory(directory, properties)
+    this.files = new Map([...this.files, ...files])
+
+    return this.files
+  }
+
+  /* --- Static File Functions --- */
 
   /* Abstracts the reading of files so it can be used more abstractly */
   public static async loadDirectory(directory: string, properties?: IronsmithFile.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap> {

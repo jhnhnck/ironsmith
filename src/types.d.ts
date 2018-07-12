@@ -115,7 +115,12 @@ declare class Ironsmith {
   /* Process files through plugins without writing the output files. */
   process(): Promise<Ironsmith.FileMap>
 
-  /* --- Static FileMap Functions --- */
+  /* --- File Functions --- */
+
+  /* Loads all of the files contained within a directory into the file map as if it were loaded from the source directory */
+  loadDirectory(directory: string, properties?: IronsmithFile.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap>
+
+  /* --- Static File Functions --- */
 
   static loadDirectory(directory: string, properties?: IronsmithFile.Options & Ironsmith.LoadOptions): Promise<Ironsmith.FileMap>
   static dumpDirectory(directory: string, files: Ironsmith.FileMap): Promise<void>

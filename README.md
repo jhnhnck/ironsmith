@@ -112,6 +112,11 @@ Run through each extension with the loaded files; Returns a promise
 
 Same as process but saves files to `buildPath` after running; Returns a promise
 
+### #loadDirectory(path, options?) ###
+
+Adds all files contained within the path to the Ironsmith instance as if they were loaded from the source directory; An optional options
+parameter can be passed with valid options being those from `Ironsmith.File.Options` and `Ironsmith.LoadOptions`; Returns the new files object
+
 ## Ironsmith Static API ##
 
 ### #loadDirectory(path, options?) ###
