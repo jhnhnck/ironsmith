@@ -18,6 +18,10 @@
 
 - Added a non-static version of the loadDirectory function that loads files directly into the file map
 
+### Known Issues ###
+
+- Causes Typescript to file on compiling for any file
+
 ## Release v1.0.4 ##
 
 ### Bug Fixes ###
