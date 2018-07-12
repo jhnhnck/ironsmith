@@ -50,4 +50,3 @@ Version omitted from the repository history due to a *cough* user error during p
 ### Initial Release ###
 
 A stupidly simple, lightweight file processing engine
-
