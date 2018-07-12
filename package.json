@@ -1,6 +1,6 @@
 {
   "name": "ironsmith",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A stupidly simple, lightweight file processing engine",
   "repository": "github:jhnhnck/ironsmith.git",
   "homepage": "https://github.com/jhnhnck/ironsmith",
