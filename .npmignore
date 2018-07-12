@@ -72,11 +72,11 @@ $RECYCLE.BIN/
 tslint.json
 tsconfig.json
 src/
+*.tgz
 
 # --- Other Configs --- #
 
 .yarnrc
 .eslintrc.json
 .gitignore
-*.tgz
 CONTRIBUTING.md
