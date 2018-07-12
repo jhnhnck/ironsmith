@@ -1,7 +1,7 @@
 # Ironsmith #
 
-![npm-version](https://img.shields.io/npm/v/ironsmith.svg)
-![npm-download-qm](https://img.shields.io/npm/dm/ironsmith.svg)
+[![npm-version](https://img.shields.io/npm/v/ironsmith.svg)](https://www.npmjs.com/package/ironsmith)
+[![npm-download-qm](https://img.shields.io/npm/dm/ironsmith.svg)](https://www.npmjs.com/package/ironsmith)
 
 A stupidly simple, lightweight file processing engine
 
