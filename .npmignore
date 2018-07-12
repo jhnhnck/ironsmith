@@ -79,4 +79,4 @@ src/
 .yarnrc
 .eslintrc.json
 .gitignore
-CONTRIBUTING.md
+CHANGES.md
