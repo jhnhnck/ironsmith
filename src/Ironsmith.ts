@@ -5,8 +5,8 @@
 
 import * as debug from 'debug'
 import * as fs from 'fs-extra'
-import * as path from 'path'
 import * as recursive from 'recursive-readdir'
+import * as path from 'upath'
 
 import { IronsmithFile } from './File'
 

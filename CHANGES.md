@@ -6,6 +6,12 @@
 - [ ] Replace asset/source directories with directory loading list
 - [ ] Add support for ignoring certain filetypes
 
+## Release v1.1.0 ##
+
+### Bug Fixes ###
+
+- Fixed Windows format paths not being normalized on import
+
 ## Release v1.0.6 ##
 
 ### Bug Fixes ###

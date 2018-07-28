@@ -1,6 +1,6 @@
 {
   "name": "ironsmith",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "A stupidly simple, lightweight file processing engine",
   "repository": "github:jhnhnck/ironsmith.git",
   "homepage": "https://github.com/jhnhnck/ironsmith",
@@ -22,7 +22,8 @@
     "debug": "^3.0.0",
     "fs-extra": "^6.0.0",
     "recursive-readdir": "^2.2.0",
-    "tslib": "^1.9.0"
+    "tslib": "^1.9.0",
+    "upath": "^1.1.0"
   },
   "optionalDependencies": {
     "source-map-support": "^0.5.0"
