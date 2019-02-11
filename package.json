@@ -15,7 +15,8 @@
   "scripts": {
     "build": "tsc",
     "postbuild": "eslint --fix ./bin/*.js &> /dev/null || exit 0",
-    "prepack": "synp --source-file ./yarn.lock",
+    "prepack": "synp --source-file ./yarn.lock > /dev/null",
+    "postpack": "rm -vf package-lock.json &> /dev/null || exit 0",
     "clean": "rm -rvf bin/* || exit 0"
   },
   "dependencies": {
