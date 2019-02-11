@@ -3,7 +3,9 @@
   "extends": ["tslint:recommended"],
   "jsRules": {},
   "rules": {
-    "arrow-return-shorthand": false,
+    "array-type": [true, "array"],
+    "arrow-parens": true,
+    "arrow-return-shorthand": true,
     "curly": true,
     "indent": [true, "spaces", 2],
     "interface-name": [true, "never-prefix"],
@@ -11,12 +13,16 @@
     "max-classes-per-file": false,
     "max-line-length": false,
     "member-ordering": false,
+    "no-bitwise": false,
     "no-consecutive-blank-lines": [true, 2],
     "no-console": false,
     "no-irregular-whitespace": true,
     "no-namespace": false,
+    "no-var-keyword": true,
     "object-literal-sort-keys": false,
     "one-variable-per-declaration": false,
+    "prefer-template": true,
+    "prefer-for-of": true,
     "quotemark": [true, "single"],
     "semicolon": [true, "never"],
     "sort-keys": false,
@@ -39,7 +45,13 @@
       "check-type-operator",
       "check-preblock"
     ],
-    "variable-name": false
+    "variable-name": [
+      true,
+      "allow-leading-underscore",
+      "allow-pascal-case",
+      "ban-keywords",
+      "check-format"
+    ]
   },
   "rulesDirectory": []
 }

@@ -16,7 +16,7 @@ declare module 'ironsmith' {
 
     public metadata: Ironsmith.Metadata
     public clean: boolean
-    public verbose: boolean
+    public verbose: boolean | 0 | 1 | 2
 
     constructor(options?: Ironsmith.Options)
 
@@ -72,7 +72,7 @@ declare module 'ironsmith' {
       loadAssets?: boolean
       loadSource?: boolean
       metadata?: Metadata
-      verbose?: boolean
+      verbose?: boolean | 0 | 1 | 2
     }
 
     interface LoadOptions {
@@ -105,7 +105,6 @@ declare module 'ironsmith' {
       readonly tagCount: number
 
       constructor(contents: Buffer | string | any, path: string, properties?: Ironsmith.File.Options)
-      static verbose: boolean
 
       /* --- File Augments --- */
 

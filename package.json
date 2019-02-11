@@ -19,7 +19,7 @@
     "clean": "rm -rvf bin/* || exit 0"
   },
   "dependencies": {
-    "debug": "^3.0.0",
+    "chalk": "^2.4.2",
     "fs-extra": "^7.0.1",
     "recursive-readdir": "^2.2.2",
     "tslib": "^1.9.3",
@@ -29,7 +29,6 @@
     "source-map-support": "^0.5.10"
   },
   "devDependencies": {
-    "@types/debug": "^0.0.30",
     "@types/fs-extra": "^5.0.4",
     "@types/node": "^10.12.24",
     "@types/recursive-readdir": "^2.2.0",

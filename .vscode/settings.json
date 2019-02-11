@@ -5,13 +5,14 @@
   "files.exclude": {
     "package_cache/**": true,
     "node_modules/**": true,
-    ".git*": false,
-    ".eslintrc.json": false,
-    ".yarnrc": false,
-    "tsconfig.json": false,
-    "tslint.json": false,
-    "yarn.lock": false,
-    "LICENSE": false
+    ".git*": true,
+    ".eslintrc.json": true,
+    ".yarnrc": true,
+    "tsconfig.json": true,
+    "tslint.json": true,
+    ".npmignore": true,
+    "yarn.lock": true,
+    "LICENSE": true
   },
   "files.watcherExclude": {
     "**/.git/objects/**": true,

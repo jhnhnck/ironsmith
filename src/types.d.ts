@@ -29,7 +29,6 @@ declare class IronsmithFile {
   readonly tagCount: number
 
   constructor(contents: Buffer | string | any, path: string, properties?: IronsmithFile.Options)
-  static verbose: boolean
 
   /* --- File Augments --- */
 
@@ -64,7 +63,7 @@ declare namespace Ironsmith {
     loadAssets?: boolean
     loadSource?: boolean
     metadata?: Metadata
-    verbose?: boolean
+    verbose?: boolean | 0 | 1 | 2
   }
 
   interface LoadOptions {
@@ -97,7 +96,7 @@ declare class Ironsmith {
 
   metadata: Ironsmith.Metadata
   clean: boolean
-  verbose: boolean
+  verbose: boolean | 0 | 1 | 2
 
   /* --- Build Initialization --- */
 

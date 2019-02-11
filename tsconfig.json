@@ -13,6 +13,8 @@
     "outDir": "bin",
     "pretty": true,
     "removeComments": false,
-    "target": "es6"
-  }
+    "target": "es2018",
+    "typeRoots": ["./types"]
+  },
+  "exclude": ["node_modules"]
 }

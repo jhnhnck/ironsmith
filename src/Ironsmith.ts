@@ -3,14 +3,14 @@
  * Author(s): John Hancock <john@dev.jhnhnck.com>
  */
 
-import * as debug from 'debug'
 import * as fs from 'fs-extra'
 import * as recursive from 'recursive-readdir'
 import * as path from 'upath'
 
 import { IronsmithFile } from './File'
+import { Logger } from './Logger'
 
-const log = debug('ironsmith')
+const log = new Logger('ironsmith')
 
 /* --- Ironsmith --- */
 
@@ -18,7 +18,7 @@ export class Ironsmith {
   private plugins: Ironsmith.Plugin[] = []
   private files: Ironsmith.FileMap
 
-  private _rootPath: string = __dirname + '/../../'  // I think this only works for me
+  private _rootPath: string = `${__dirname}/../../`  // I think this only works for me
   private _sourcePath: string = 'src'
   private _buildPath: string = 'build'
   private _assetsPath: string = 'assets'
@@ -43,9 +43,9 @@ export class Ironsmith {
   set rootPath(directory: string) {
     if (directory.length > 0) {  // TODO: Check if this is a valid path
       this._rootPath = path.resolve(directory)
-      log(`setRoot(...): ${this._rootPath}`)
+      log.debug(`setRoot(...): ${this._rootPath}`)
     } else {
-      console.warn('Warning! Blatantly refusing to make the root path blank.')
+      log.warn('Warning! Blatantly refusing to make the root path blank.')
     }
   }
 
@@ -56,9 +56,9 @@ export class Ironsmith {
   set buildPath(directory: string) {
     if (directory.length > 0) {  // TODO: Check if this is a valid path
       this._buildPath = path.resolve(this._rootPath, directory)
-      log(`setBuildPath(...): ${this._buildPath}`)
+      log.debug(`setBuildPath(...): ${this._buildPath}`)
     } else {
-      console.warn('Warning! Blatantly refusing to make the build path blank.')
+      log.warn('Warning! Blatantly refusing to make the build path blank.')
     }
   }
 
@@ -69,9 +69,9 @@ export class Ironsmith {
   set sourcePath(directory: string) {
     if (directory.length > 0) {  // TODO: Check if this is a valid path
       this._sourcePath = path.resolve(this._rootPath, directory)
-      log(`setSourcePath(...): ${this._sourcePath}`)
+      log.debug(`setSourcePath(...): ${this._sourcePath}`)
     } else {
-      console.warn('Warning! Blatantly refusing to make the source path blank.')
+      log.warn('Warning! Blatantly refusing to make the source path blank.')
     }
   }
 
@@ -82,7 +82,7 @@ export class Ironsmith {
   set assetsPath(directory: string) {
     if (directory.length > 0) {  // TODO: Check if this is a valid path
       this._assetsPath = path.resolve(this._rootPath, directory)
-      log(`setAssetsPath(...): ${this._assetsPath}`)
+      log.debug(`setAssetsPath(...): ${this._assetsPath}`)
     } else {
       this.loadAssets = false
     }
@@ -90,16 +90,19 @@ export class Ironsmith {
 
   /* --- Other Properties --- */
 
-  set verbose(value: boolean) {
-    IronsmithFile.verbose = value
-    log.enabled = value
+  set verbose(value: boolean | 0 | 1 | 2) {
+    if (typeof value === 'boolean') {
+      Logger.setLevel(value ? 2 : 0)
+    } else {
+      Logger.setLevel(value)
+    }
   }
 
   /* --- Build Initialization --- */
 
   /* Add a 'Ironsmith.Plugin' function to the stack */
   public use(plugin: Ironsmith.Plugin): Ironsmith {
-    log(`use(...): Registered plugin "${plugin.name}"`)
+    log.debug(`use(...): Registered plugin "${plugin.name}"`)
     this.plugins.push(plugin)
     return this
   }
@@ -115,7 +118,7 @@ export class Ironsmith {
   public async build(): Promise<Ironsmith.FileMap> {
     try {
       if (this.clean) {
-        log(`build(): Cleaning build directory`)
+        log.debug(`build(): Cleaning build directory`)
         await fs.emptyDir(this._buildPath)
       }
 
@@ -144,7 +147,7 @@ export class Ironsmith {
       this.files = new Map([...this.files, ...(sources || []), ...(assets || [])])
 
       for (const plugin of this.plugins) {
-        log(`process(): Running plugin ${plugin.name}`)
+        log.verbose(`process(): Running plugin ${plugin.name}`)
         await new Promise((next) => { plugin(this.files, this, next) })
       }
       return this.files
@@ -183,7 +186,7 @@ export class Ironsmith {
       delete properties.loadRelative
     }
 
-    log(`loadDirectory(...): Loading ${filenames.length} files from ${directory} ${prefix.length > 0 ? ` into ${prefix}` : ''}`)
+    log.verbose(`loadDirectory(...): Loading ${filenames.length} files from ${directory} ${prefix.length > 0 ? ` into ${prefix}` : ''}`)
 
     for (const name of filenames) {
       const buffer = await fs.readFile(name)
@@ -191,11 +194,11 @@ export class Ironsmith {
       try {
         const file = await new IronsmithFile(buffer, `${prefix}${path.relative(directory, name)}`, Object.assign({}, properties))
 
-        log(` - loaded: ${file.path}${file.asset ? ' (asset)' : ''}`)
+        log.debug(` - loaded: ${file.path}${file.asset ? ' (asset)' : ''}`)
         files.set(file.path, file)
 
       } catch (err) {  // This allows for Augments and/or constructors to reject the creation of files by throwing an error
-        log(` - not loaded: ${name} (${err.message})`)
+        log.debug(` - not loaded: ${name} (${err.message})`)
       }
     }
 
@@ -204,13 +207,13 @@ export class Ironsmith {
 
   /* Writes a `Ironsmith.FileMap` into directory */
   public static async dumpDirectory(directory: string, files: Ironsmith.FileMap): Promise<void> {
-    log(`dumpDirectory(...): Dumping ${files.size} files into ${directory}`)
+    log.verbose(`dumpDirectory(...): Dumping ${files.size} files into ${directory}`)
 
     files.forEach(async (file, name) => {
       const absPath = path.resolve(directory, name)
 
       await fs.mkdirs(path.dirname(absPath))
-      log(`Writing file: ./${name}${file.asset ? ' (asset)' : '' }`)
+      log.debug(`Writing file: ./${name}${file.asset ? ' (asset)' : '' }`)
       await fs.writeFile(absPath, file.contents)
     })
   }

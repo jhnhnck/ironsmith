@@ -3,8 +3,9 @@
  * Author(s): John Hancock <john@dev.jhnhnck.com>
  */
 
-import * as debug from 'debug'
-const log = debug('ironsmith:file')
+import { Logger } from './Logger'
+
+const log = new Logger('ironsmith:file')
 
 export class IronsmithFile {
   private static _augmentList: string[] = []
@@ -18,7 +19,7 @@ export class IronsmithFile {
   constructor(contents: Buffer | string | any, path: string, properties?: IronsmithFile.Options) {
     properties = properties || {}
 
-    log(`New file created: ${path} ${JSON.stringify(properties)}`)
+    log.debug(`New file created: ${path} ${JSON.stringify(properties)}`)
     this.contents = contents
     this.path = path
 
@@ -29,8 +30,6 @@ export class IronsmithFile {
 
     if (IronsmithFile._augments.length > 0) { this.initialize() }
   }
-
-  public static set verbose(value: boolean) { log.enabled = value }
 
   /* --- Tagging Set Abstraction --- */
 
@@ -43,7 +42,7 @@ export class IronsmithFile {
   /* --- File Augments --- */
 
   private initialize() {
-    log(`Running augments [${IronsmithFile._augmentList.join(', ')}] for file: ${this.path}`)
+    log.debug(`Running augments [${IronsmithFile._augmentList.join(', ')}] for file: ${this.path}`)
     for (const ftn of IronsmithFile._augments) { ftn(this) }
   }
 
@@ -52,7 +51,7 @@ export class IronsmithFile {
   }
 
   public static addAugment(ftn: IronsmithFile.Augment) {
-    log(`Added augment: ${ftn.name}`)
+    log.debug(`Added augment: ${ftn.name}`)
     IronsmithFile._augmentList.push(ftn.name)
     IronsmithFile._augments.push(ftn)
   }

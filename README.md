@@ -180,6 +180,9 @@ Add a Augment function to the set of augments ran on the creation of a `Ironsmit
 
 ### Ironsmith.Options ###
 
+*Changes in 1.2.0:* `Ironsmith.Options.verbose` now can optionally take a value 0 - 2 with 2 being the same as the previous enabled value and 1
+being a lower level of verbosity
+
 ```typescript
 interface {
   rootPath?: string
@@ -190,7 +193,7 @@ interface {
   loadAssets?: boolean
   loadSource?: boolean
   metadata?: Metadata
-  verbose?: boolean
+  verbose?: boolean | 0 | 1 | 2
 }
 ```
 
