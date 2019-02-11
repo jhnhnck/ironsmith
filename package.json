@@ -6,7 +6,6 @@
   "homepage": "https://github.com/jhnhnck/ironsmith",
   "main": "ironsmith.js",
   "types": "ironsmith.d.ts",
-  "epoch": "2018/07",
   "license": "MIT",
   "author": {
     "email": "john@dev.jhnhnck.com",
